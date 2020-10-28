@@ -35,3 +35,7 @@ Public Function DoesTheFieldAlreadyExist(TableName As String, FieldName As Strin
     End If
     
 End Function
+    
+Public Function SetBlankCurrentConnection()
+    CurrentProject.OpenConnection ("")
+End Function
