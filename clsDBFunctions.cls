@@ -8,6 +8,7 @@
 ' Changes:
 '----------------------------------------------------------------------------------------------------------------------------------
 ' 2020-10-21     , PD : beta wersion
+' 2021-.....     , PD : update
 '----------------------------------------------------------------------------------------------------------------------------------
 Option Compare Database
 Option Explicit
@@ -15,7 +16,6 @@ Option Explicit
 Private Const CurrentModName = "clsDBFunctions"
 
 Public Function DoesTheFieldAlreadyExist(TableName As String, FieldName As String) As Boolean
-
 
     Dim FieldExists As Byte
     Dim SqlS As String
@@ -35,7 +35,24 @@ Public Function DoesTheFieldAlreadyExist(TableName As String, FieldName As Strin
     End If
     
 End Function
+
+Public Function GetValue(strSQL As String, Optional FieldIndex As Single = 0) As Variant
+
+    Dim Rst As New ADODB.Recordset
+    Rst.Open strSQL, CurrentProject.Connection, adOpenKeyset, adLockOptimistic, adCmdUnknown
     
+    If Rst.RecordCount = 0 Then
+        GetValue = Null
+    Else
+        Rst.MoveFirst
+        GetValue = Rst.Fields(FieldIndex).Value
+    End If
+    
+    Rst.Close
+    Set Rst = Nothing
+
+End Function
+
 Public Function SetBlankCurrentConnection()
     CurrentProject.OpenConnection ("")
 End Function
